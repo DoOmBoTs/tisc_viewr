@@ -1,0 +1,24 @@
+# GMT common arguments shelf
+-B/:Sediment thickness (m):
+-JX27/4.5
+-JZ5
+-R0/1000.0/-8/8
+-X3.2
+-x14
+-Y15
+-y-7
+-jX27/4.5
+EOF
+-7
+-jX27/4.5
+EOF
+
+-y-7
+-jX8.1/16.20000000000000000000
+EOF
+00000
+EOF
+OF
+1/11
+EOF
+F
