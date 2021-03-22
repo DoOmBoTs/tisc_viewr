@@ -1,11 +1,15 @@
 Package: TISCViewR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Organizes and visualizes TISC input and outputs for easy model to model comparison.
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Byran R Thomas, Ghislain Nono Gueye Ph.D.
+Maintainer: Byran R Thomas <bryanrt.bt@gmail.com>
+Description: TISC landscape evolution modeling is a powerful open source tool for 4D analysis of flexure and 
+surficial process. However, a weakness of TISC is the ability to readily compare model results in a qualitative way.
+TISCViewR was created to accept both input and output files from TISC to perform a more comparable analysis of model
+runs. TISCViewR was built to focus on basin depth, length, symmetry, and geohistory. Operations are performed upon
+data preserved in TISC's pfl file's- cross sectional data. Therefore, TISCViewR reduces dimensions to 3D. 
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+
