@@ -4,12 +4,8 @@ Title: Organizes and visualizes TISC input and outputs for easy model to model c
 Version: 0.1.0
 Author: Byran R Thomas, Ghislain Nono Gueye Ph.D.
 Maintainer: Byran R Thomas <bryanrt.bt@gmail.com>
-Description: TISC landscape evolution modeling is a powerful open source tool for 4D analysis of flexure and 
-surficial process. However, a weakness of TISC is the ability to readily compare model results in a qualitative way.
-TISCViewR was created to accept both input and output files from TISC to perform a more comparable analysis of model
-runs. TISCViewR was built to focus on basin depth, length, symmetry, and geohistory. Operations are performed upon
-data preserved in TISC's pfl file's- cross sectional data. Therefore, TISCViewR reduces dimensions to 3D. 
-License: What license is it under?
+Description: TISC landscape evolution modeling is a powerful open source tool for 4D analysis of flexure and surficial process. However, a weakness of TISC is the ability to readily compare model results in a qualitative way. TISCViewR was created to accept both input and output files from TISC to perform a more comparable analysis of model runs. TISCViewR was built to focus on basin depth, length, symmetry, and geohistory. Operations are performed upon data preserved in TISC's pfl file's- cross sectional data. Therefore, TISCViewR reduces dimensions to 3D. 
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
-
+RoxygenNote: 7.1.1
