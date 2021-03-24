@@ -1,2 +1,2 @@
-# TISC_viewR
+# TISCViewR
 
