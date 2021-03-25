@@ -5,6 +5,10 @@
 #'  @param file_paths list of file types from TISC the user wants to include
 #'  @param root_path the path to the root directory in which TISC models are located
 #'
+#'  @importFrom purrr map
+#'  @importFrom fs dir_ls
+#'  @importFrom stringr str_subset
+#'
 #'  @examples
 #'  paths <-  file_paths(wanted_files = c("pfl", "UNIT", "PRM"), root_path = )
 #'
@@ -34,7 +38,7 @@ file_paths <- function(wanted_files, root_path){
 
   })
 
-  pahts <- names(paths) <- wanted_files
+  paths <- names(paths) <- wanted_files
 
   paths
 
