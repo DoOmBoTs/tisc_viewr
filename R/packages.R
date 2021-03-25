@@ -1,0 +1,17 @@
+pacman::p_load(
+  forcats,
+  here,
+  readr,
+  fs,
+  stringr,
+  dplyr,
+  purrr,
+  tidyr,
+  ggplot2,
+  glue,
+  cli,
+  moments,
+  tidyr,
+  plotly,
+  visNetwork
+)

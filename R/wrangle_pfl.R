@@ -2,9 +2,7 @@
 #'
 #' Description here...
 #'
-#' @param pfl_files description...
-#' @param prm_files description...
-#' @param unit_files description...
+#' @param file_paths description...
 #' @param model_names description...
 #'
 #' @importFrom dplyr %>%
@@ -14,19 +12,19 @@
 #'
 #' @examples
 #'
-wrangle_pfl <- function(pfl_files, prm_files, unit_files, model_names){
+wrangle_pfl <- function(file_paths, model_names){
 
   # Get data from file paths ----
 
-  pfl_text_data <- purrr::map(model_names, ~ stringr::str_subset(string = pfl_files, pattern = .x)) %>%
+  pfl_text_data <- purrr::map(model_names, ~ stringr::str_subset(string = file_paths$pfl, pattern = .x)) %>%
     purrr::map(~ purrr::map(.x, readr::read_lines))
 
-  pfl_data <- purrr::map(model_names, ~ stringr::str_subset(string = pfl_files, pattern = .x)) %>%
-    purrr::map(~ purrr::map(.x, ~ tibble::as_tibble(read.table(.x, header = FALSE, sep = "\t", stringsAsFactors = FALSE))))
+  pfl_data <- purrr::map(model_names, ~ stringr::str_subset(string = file_paths$pfl, pattern = .x)) %>%
+    purrr::map(~ purrr::map(.x, ~ tibble::as_tibble(utils::read.table(.x, header = FALSE, sep = "\t", stringsAsFactors = FALSE))))
 
-  prm_data <- purrr::map(prm_files, readr::read_lines)
+  prm_data <- purrr::map(file_paths$PRM, readr::read_lines)
 
-  unit_data <- purrr::map(model_names, ~ stringr::str_subset(string = unit_files, pattern = .x)) %>%
+  unit_data <- purrr::map(model_names, ~ stringr::str_subset(string = file_paths$UNIT, pattern = .x)) %>%
     purrr::map(~ purrr::map(.x, readr::read_lines))
 
   bedrock_density <- purrr::map_dbl(prm_data, function(x){
@@ -43,7 +41,7 @@ wrangle_pfl <- function(pfl_files, prm_files, unit_files, model_names){
 
   fault_time <- purrr::map(unit_data, function(x){
     purrr::map(x, function(y){
-      str_subset(string = y, pattern = "^time|^time_stop") %>%
+      stringr::str_subset(string = y, pattern = "^time|^time_stop") %>%
         stringr::str_extract(pattern = "\\d+") %>%
         as.numeric()
     })
@@ -56,7 +54,7 @@ wrangle_pfl <- function(pfl_files, prm_files, unit_files, model_names){
 
     purrr::map(x, function(pfl){
       stringr::str_subset(string = pfl, pattern = "Densities") %>%
-        str_extract_all(pattern = "\\d+")
+        stringr::str_extract_all(pattern = "\\d+")
     }) %>%
       purrr::map(function(bd){
         a <- unlist(bd, recursive = TRUE) %>%
@@ -72,8 +70,8 @@ wrangle_pfl <- function(pfl_files, prm_files, unit_files, model_names){
     purrr::map2(pfl[-1], col[-1],  ~ .x[c(2, .y)])
   }) %>%
     purrr::map(function(x){
-      reduce(x, left_join, by = "V2") %>%
-        setNames(c("Y", paste0("Z", 2:ncol(.))))
+      purrr::reduce(x, dplyr::left_join, by = "V2") %>%
+        stats::setNames(c("Y", paste0("Z", 2:ncol(.))))
     })
 
   names(new_pfl_data) <- model_names
@@ -81,15 +79,15 @@ wrangle_pfl <- function(pfl_files, prm_files, unit_files, model_names){
 
   purrr::map(new_pfl_data, function(x){
     x %>%
-      pivot_longer(-Y,
+      tidyr::pivot_longer(-Y,
                    names_to = "timestep",
                    names_prefix="Z_",
                    values_to = "elevation") %>%
-      mutate(timestep = fct_inorder(timestep)) %>%
-      group_by(timestep) %>%
-      summarize(find_basin_data(Y = Y, elevation_vector = elevation, n = 100)) %>%
-      drop_na() %>%
-      ungroup()
+      dplyr::mutate(timestep = fct_inorder(timestep)) %>%
+      dplyr::group_by(timestep) %>%
+      dplyr::summarize(find_basin_data(Y = Y, elevation_vector = elevation, n = 100)) %>%
+      tidyr::drop_na() %>%
+      dplyr::ungroup()
   })
 
 }

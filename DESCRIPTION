@@ -13,7 +13,12 @@ Depends:
     R (>= 2.10)
 Imports: 
     tibble,
-    purrr
+    purrr,
+    fs,
+    dplyr,
+    utils,
+    stats,
+    tidyr
 Suggests: 
     rmarkdown,
     knitr
