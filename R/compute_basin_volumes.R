@@ -4,6 +4,8 @@
 #' @param elevation elevation at a each point within the basin for calculating the Reimman sum
 #' @param middle median of length of basin
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return
 #' @export
 #'

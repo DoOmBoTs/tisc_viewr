@@ -4,6 +4,8 @@
 #' @param file_paths paths to all files within the root directory
 #' @param model_names names of the models being analyzed
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return
 #' @export
 #'
@@ -20,7 +22,7 @@ get_well_tops <- function(models_well_location, file_paths, model_names){
     purrr::map(~ purrr::map(.x, read_lines))
 
   pfl_data <- purrr::map(model_names, ~ stringr::str_subset(string = file_paths$pfl, pattern = .x)) %>%
-    purrr::map(~ map(.x, ~ tibble::as_tibble(readr::read.table(.x, header = FALSE, sep = "\t", stringsAsFactors = FALSE))))
+    purrr::map(~ map(.x, ~ tibble::as_tibble(utils::read.table(.x, header = FALSE, sep = "\t", stringsAsFactors = FALSE))))
 
   prm_data <- purrr::map(file_paths$PRM, read_lines)
 

@@ -3,6 +3,8 @@
 #' @param models_basin_symmetry_data output from models_basin_symmetry_data
 #' @param vis_dir directory where you would like to place your plots
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return
 #' @export
 #'
@@ -10,7 +12,7 @@
 plot_basin_symmetry_data <- function(models_basin_symmetry_data, vis_dir){
 
   d <- models_basin_symmetry_data %>%
-    purrr:imap(~ .x %>% dplyr::mutate(model = .y, t = row_number())) %>%
+    purrr::imap(~ .x %>% dplyr::mutate(model = .y, t = row_number())) %>%
     dplyr::bind_rows()
 
 

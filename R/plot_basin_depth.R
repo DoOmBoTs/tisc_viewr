@@ -1,7 +1,9 @@
 #' plot_basin_depth
 #'
 #' @param models_basin_geometry output from models_basin_geometry
-#'  @param vis_dir directory where you want to place your figures
+#' @param vis_dir directory where you want to place your figures
+#'
+#' @importFrom dplyr %>%
 #'
 #' @return
 #' @export

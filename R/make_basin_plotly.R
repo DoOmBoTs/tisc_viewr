@@ -3,6 +3,8 @@
 #' @param models_basin_data output from wrangle_pfl
 #' @param vis_dir the directory path to where you would like to save your plots, end the path with an /
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return
 #' @export
 #'

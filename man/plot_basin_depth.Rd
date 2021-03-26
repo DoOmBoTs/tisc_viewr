@@ -7,8 +7,9 @@
 plot_basin_depth(models_basin_geometry, vis_dir)
 }
 \arguments{
-\item{models_basin_geometry}{output from models_basin_geometry
-@param vis_dir directory where you want to place your figures}
+\item{models_basin_geometry}{output from models_basin_geometry}
+
+\item{vis_dir}{directory where you want to place your figures}
 }
 \value{
 

@@ -3,6 +3,8 @@
 #' @param decompaction_data output from get_decompaction_data
 #' @param file_paths list of the paths to the files within the root directory
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return
 #' @export
 #'
@@ -27,7 +29,7 @@ get_subsidence_data <- function(decompaction_data, file_paths){
   #
   # gather TISC model inputs ----
 
-  prm_data <- purrr::map(file_paths$PRM, read_lines)
+  prm_data <- purrr::map(file_paths$PRM, readr::read_lines)
 
   rho_s <- purrr::map_dbl(prm_data, function(x){
     stringr::str_subset(string = x, pattern = "^denssedim") %>%

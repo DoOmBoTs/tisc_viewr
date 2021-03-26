@@ -1,15 +1,17 @@
-#' file_paths
+#' model_paths
 #'
 #'  Creates a named list of paths for each file type the user wants to use from TISC
 #'
-#'  @param wanted_files list of file types from TISC the user wants to include
-#'  @param root_path the path to the root directory in which TISC models are located
+#' @param wanted_files List of the file's the user wants to pass from TISC
+#' @param root_path The path to the directory where all the models are stored
 #'
-#'  @importFrom dplyr %>%
+#' @importFrom dplyr %>%
 #'
-#'  @examples
-#'  @export
-file_paths <- function(wanted_files, root_path){
+#' @return
+#' @export
+#'
+#' @examples
+model_paths <- function(wanted_files, root_path){
 
   paths <- purrr::map(wanted_files, function(x){
 

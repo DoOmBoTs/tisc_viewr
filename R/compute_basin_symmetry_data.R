@@ -3,6 +3,8 @@
 #' @param models_basin_data outputs withing wrangle_pfl
 #' @param file_paths path to the root directory with all models
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return
 #' @export
 #'
@@ -35,7 +37,7 @@ compute_basin_symmetry_data <- function(models_basin_data, file_paths){
         ratio = right / left,
         difference = right - left,
         model = y,
-        class =  dplyr::first(readr::str_subset(string = file_paths$pfl, pattern = model)) %>%
+        class =  dplyr::first(stringr::str_subset(string = file_paths$pfl, pattern = model)) %>%
           dirname() %>%
           dirname() %>%
           basename()

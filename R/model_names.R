@@ -2,6 +2,8 @@
 #'
 #' @param file_paths List of paths to the pfl files that contain the models being analyzed.
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return
 #' @export
 #'

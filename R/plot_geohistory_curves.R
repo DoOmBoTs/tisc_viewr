@@ -3,6 +3,8 @@
 #' @param subsidence_data output from get_subsidence_data
 #' @param vis_dir directory where you would like to place your plots
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return
 #' @export
 #'
