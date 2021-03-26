@@ -7,7 +7,11 @@
 get_well_tops(models_well_location, file_paths, model_names)
 }
 \arguments{
-\item{model_names}{}
+\item{models_well_location}{output from models_well_location}
+
+\item{file_paths}{paths to all files within the root directory}
+
+\item{model_names}{names of the models being analyzed}
 }
 \value{
 

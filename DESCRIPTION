@@ -22,7 +22,9 @@ Imports:
     glue,
     ggplot2,
     plotly,
-    htmlwidgets
+    htmlwidgets,
+    readr,
+    stringr
 Suggests: 
     rmarkdown,
     knitr

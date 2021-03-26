@@ -1,7 +1,7 @@
 #' get_subsidence_data
 #'
-#' @param decompaction_data
-#' @param file_paths
+#' @param decompaction_data output from get_decompaction_data
+#' @param file_paths list of the paths to the files within the root directory
 #'
 #' @return
 #' @export

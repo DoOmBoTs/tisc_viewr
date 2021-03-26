@@ -1,8 +1,8 @@
 #' get_well_tops
 #'
-#' @param models_well_location
-#' @param file_paths
-#' @param model_names
+#' @param models_well_location output from models_well_location
+#' @param file_paths paths to all files within the root directory
+#' @param model_names names of the models being analyzed
 #'
 #' @return
 #' @export

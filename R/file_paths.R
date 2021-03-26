@@ -2,7 +2,7 @@
 #'
 #'  Creates a named list of paths for each file type the user wants to use from TISC
 #'
-#'  @param file_paths list of file types from TISC the user wants to include
+#'  @param wanted_files list of file types from TISC the user wants to include
 #'  @param root_path the path to the root directory in which TISC models are located
 #'
 #'  @importFrom dplyr %>%

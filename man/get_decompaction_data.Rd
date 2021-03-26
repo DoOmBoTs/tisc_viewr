@@ -7,7 +7,9 @@
 get_decompaction_data(models_well_tops, file_paths)
 }
 \arguments{
-\item{file_paths}{}
+\item{models_well_tops}{output from get_well_tops}
+
+\item{file_paths}{list of the paths to the files within the root directory}
 }
 \value{
 

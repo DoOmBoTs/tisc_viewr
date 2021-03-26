@@ -7,7 +7,11 @@
 compute_basin_volumes(Y, elevation, middle)
 }
 \arguments{
-\item{middle}{}
+\item{Y}{values from within wrangle_pfl}
+
+\item{elevation}{elevation at a each point within the basin for calculating the Reimman sum}
+
+\item{middle}{median of length of basin}
 }
 \value{
 

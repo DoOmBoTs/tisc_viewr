@@ -1,7 +1,7 @@
 #' compute_basin_symmetry_data
 #'
-#' @param models_basin_data
-#' @param file_paths
+#' @param models_basin_data outputs withing wrangle_pfl
+#' @param file_paths path to the root directory with all models
 #'
 #' @return
 #' @export

@@ -4,10 +4,12 @@
 \alias{compute_basin_symmetry_data}
 \title{compute_basin_symmetry_data}
 \usage{
-compute_basin_symmetry_data(models_basin_data, pfl_files)
+compute_basin_symmetry_data(models_basin_data, file_paths)
 }
 \arguments{
-\item{file_paths}{}
+\item{models_basin_data}{outputs withing wrangle_pfl}
+
+\item{file_paths}{path to the root directory with all models}
 }
 \value{
 

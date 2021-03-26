@@ -1,13 +1,13 @@
 #' make_basin_plotly
 #'
-#' @param models_basin_data
-#' @param plot_path
+#' @param models_basin_data output from wrangle_pfl
+#' @param vis_dir the directory path to where you would like to save your plots, end the path with an /
 #'
 #' @return
 #' @export
 #'
 #' @examples
-make_basin_plotly <- function(models_basin_data, plot_path){
+make_basin_plotly <- function(models_basin_data, vis_dir){
 
   models_basin_data %>%
 
@@ -41,7 +41,7 @@ make_basin_plotly <- function(models_basin_data, plot_path){
             )
           )
 
-        htmlwidgets::saveWidget(p, plot_path, model_name)
+        htmlwidgets::saveWidget(p, vis_dir, model_name)
       }
     })
 

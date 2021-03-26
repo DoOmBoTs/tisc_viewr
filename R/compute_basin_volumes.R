@@ -1,8 +1,8 @@
 #' compute_basin_volumes
 #'
-#' @param Y
-#' @param elevation
-#' @param middle
+#' @param Y values from within wrangle_pfl
+#' @param elevation elevation at a each point within the basin for calculating the Reimman sum
+#' @param middle median of length of basin
 #'
 #' @return
 #' @export

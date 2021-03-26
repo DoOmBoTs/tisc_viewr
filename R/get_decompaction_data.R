@@ -1,7 +1,7 @@
 #' get_decompaction_data
 #'
-#' @param models_well_tops
-#' @param file_paths
+#' @param models_well_tops output from get_well_tops
+#' @param file_paths list of the paths to the files within the root directory
 #'
 #' @return
 #' @export

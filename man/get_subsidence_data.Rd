@@ -7,7 +7,9 @@
 get_subsidence_data(decompaction_data, file_paths)
 }
 \arguments{
-\item{file_paths}{}
+\item{decompaction_data}{output from get_decompaction_data}
+
+\item{file_paths}{list of the paths to the files within the root directory}
 }
 \value{
 
