@@ -41,7 +41,7 @@ make_basin_plotly <- function(models_basin_data, plot_path){
             )
           )
 
-        htmlwidgets::saveWidget(p, plot_path, model_name)))
+        htmlwidgets::saveWidget(p, plot_path, model_name)
       }
     })
 

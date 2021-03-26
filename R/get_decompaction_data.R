@@ -53,7 +53,7 @@ get_decompaction_data <- function(models_well_tops, file_paths){
                fill = "right"
       ) %>%
       ## remove redundant lines
-      tidyr::tidyr::drop_na() %>%
+      tidyr::drop_na() %>%
       ## change type for all columns to `double`
       purrr::map_df(as.numeric)
 
