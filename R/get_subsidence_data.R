@@ -1,13 +1,13 @@
-#' Title
+#' get_subsidence_data
 #'
 #' @param decompaction_data
-#' @param prm_files
+#' @param file_paths
 #'
 #' @return
 #' @export
 #'
 #' @examples
-get_subsidence_data <- function(decompaction_data, prm_files){
+get_subsidence_data <- function(decompaction_data, file_paths){
   # Equations ----
   #
   # z_tec Equation pulled from:
@@ -27,15 +27,15 @@ get_subsidence_data <- function(decompaction_data, prm_files){
   #
   # gather TISC model inputs ----
 
-  prm_data <- map(prm_files, read_lines)
+  prm_data <- purrr::map(file_paths$PRM, read_lines)
 
-  rho_s <- map_dbl(prm_data, function(x){
+  rho_s <- purrr::map_dbl(prm_data, function(x){
     stringr::str_subset(string = x, pattern = "^denssedim") %>%
       stringr::str_extract(pattern = "\\d+\\.*\\d*") %>%
       as.numeric()
   })
 
-  rho_m <- map_dbl(prm_data, function(x){
+  rho_m <- purrr::map_dbl(prm_data, function(x){
     stringr::str_subset(string = x, pattern = "^densmantle") %>%
       stringr::str_extract(pattern = "\\d+\\.*\\d*") %>%
       as.numeric()
@@ -43,7 +43,7 @@ get_subsidence_data <- function(decompaction_data, prm_files){
 
   # Build tectonic subsidence data.frame ----
 
-  pmap(list(decompaction_data, rho_m, rho_s), function(x, y, z){
+  purrr::pmap(list(decompaction_data, rho_m, rho_s), function(x, y, z){
 
     # x <- decompaction_data[[1]]
     # y <- rho_m[[1]]
@@ -52,29 +52,29 @@ get_subsidence_data <- function(decompaction_data, prm_files){
     if (length(x) > 0) {
 
       x %>%
-        group_by(timestep) %>%
-        summarize(
+        dplyr::group_by(timestep) %>%
+        dplyr::summarize(
           compact_thk = sum(compact_thk, na.rm = TRUE),
           decompact_thk = sum(decompact_thk, na.rm = TRUE),
-          water_depth = last(water_depth),
+          water_depth = dplyr::last(water_depth),
           rho_m = y,
           rho_w = 1000,
           rho_s = z,
-          sub_total = -first(unit_depth),
-          sea_level = last(sea_level)) %>%
-        mutate(
-          del_sl = sea_level - lag(sea_level),
+          sub_total = -dplyr::first(unit_depth),
+          sea_level = dplyr::last(sea_level)) %>%
+        dplyr::mutate(
+          del_sl = sea_level - dplyr::lag(sea_level),
           sub_tec = decompact_thk * ((rho_m - rho_s)/(rho_m - rho_w)) + water_depth - del_sl * (rho_m/(rho_m-rho_w))
         ) %>%
-        drop_na() %>%
-        mutate(
-          spline_sub_tec = smooth.spline(sub_tec, spar = 0.5)$y,
+        tidyr::drop_na() %>%
+        dplyr::mutate(
+          spline_sub_tec = stats::smooth.spline(sub_tec, spar = 0.5)$y,
           # spline_water_depth = if (water_depth != 0) {
           #   smooth.spline(water_depth, spar = 0.5)$y
           # } else {
           #   water_depth
           # }
-          spline_water_depth = smooth.spline(water_depth, spar = 0.5)$y
+          spline_water_depth = stats::smooth.spline(water_depth, spar = 0.5)$y
         )
     }
   })

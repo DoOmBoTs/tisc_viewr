@@ -18,7 +18,11 @@ Imports:
     dplyr,
     utils,
     stats,
-    tidyr
+    tidyr,
+    glue,
+    ggplot2,
+    plotly,
+    htmlwidgets
 Suggests: 
     rmarkdown,
     knitr

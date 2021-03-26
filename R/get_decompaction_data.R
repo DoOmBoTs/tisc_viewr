@@ -1,15 +1,14 @@
-#' Title
+#' get_decompaction_data
 #'
 #' @param models_well_tops
-#' @param prm_files
-#' @param slv_files
+#' @param file_paths
 #'
 #' @return
 #' @export
 #'
 #' @examples
 
-get_decompaction_data <- function(models_well_tops, prm_files, slv_files){
+get_decompaction_data <- function(models_well_tops, file_paths){
   # Equations ----
   #
   # campact_curve = (phi1 -phi2)/(compact_depth - z_initial)
@@ -20,8 +19,8 @@ get_decompaction_data <- function(models_well_tops, prm_files, slv_files){
   #
   # gather TISC model inputs ----
 
-  prm_data <- map(prm_files, read_lines)
-  phi1 <- map_dbl(prm_data, function(x){                              # sed_porosity from .PRM expressed as a %
+  prm_data <- purrr:map(file_paths$PRM, readr::read_lines)
+  phi1 <- purrr::map_dbl(prm_data, function(x){                              # sed_porosity from .PRM expressed as a %
     stringr::str_subset(string = x, pattern = "^sed_porosity") %>%
       stringr::str_extract(pattern = "\\d+\\.*\\d*") %>%
       as.numeric()
@@ -29,13 +28,13 @@ get_decompaction_data <- function(models_well_tops, prm_files, slv_files){
 
   phi2 = phi1 - log(phi1)           # compact_depth from .PRM says dz to decrease by an order 'e' to phi1, is log base e or base 10?
 
-  compact_depth = map_dbl(prm_data, function(x){
+  compact_depth = purrr::map_dbl(prm_data, function(x){
     stringr::str_subset(string = x, pattern = "^compact_depth") %>%
       stringr::str_extract(pattern = "\\d+\\.*\\d*") %>%
       as.numeric()
   })
 
-  switch_sea = map_dbl(prm_data, function(x){
+  switch_sea = purrr::map_dbl(prm_data, function(x){
     stringr::str_subset(string = x, pattern = "^switch_sea") %>%
       stringr::str_extract(pattern = "\\d+\\.*\\d*") %>%
       as.numeric()
@@ -43,27 +42,27 @@ get_decompaction_data <- function(models_well_tops, prm_files, slv_files){
 
   # Rework this into creating the data.frame with 2 columns(timestep & depth)
 
-    slv_data =  slv_data <- map(slv_files, function(x){
+    slv_data <- purrr:map(file_paths$SLV, function(x){
 
     x %>%
-      read_lines(skip_empty_rows = T) %>%
-      as_tibble() %>%
-      separate(col = value,
+      readr::read_lines(skip_empty_rows = T) %>%
+      tibble::as_tibble() %>%
+      tidyr::separate(col = value,
                into = c("timestep", "sea_level"),
                sep = "\t",
                fill = "right"
       ) %>%
       ## remove redundant lines
-      drop_na() %>%
+      tidyr::tidyr::drop_na() %>%
       ## change type for all columns to `double`
-      map_df(as.numeric)
+      purrr::map_df(as.numeric)
 
   })
 
 
   # Build decompaction data.frame conditional case----
 
-  pmap(list(models_well_tops, phi1, phi2, compact_depth, slv_data, switch_sea), function(x, y, z, a, b, c){
+  purrr::pmap(list(models_well_tops, phi1, phi2, compact_depth, slv_data, switch_sea), function(x, y, z, a, b, c){
 
     # variables used to test function internally
     # x <- models_well_tops[[1]]
@@ -77,62 +76,62 @@ get_decompaction_data <- function(models_well_tops, prm_files, slv_files){
       if (c == 0){
 
         x[,-(2:3)] %>%
-          pivot_longer(cols = -timestep, names_to = "sediment", values_to = "unit_depth") %>%
-          ungroup() %>%
-          drop_na() %>%
-          group_by(sediment) %>%
-          mutate(z_initial = first(unit_depth)) %>%
-          ungroup() %>%
-          group_by(timestep) %>%
-          mutate(campact_curve = (z - y)/(a - z_initial),
+          tidyr::pivot_longer(cols = -timestep, names_to = "sediment", values_to = "unit_depth") %>%
+          dplyr::ungroup() %>%
+          tidyr::drop_na() %>%
+          dplyr::group_by(sediment) %>%
+          dplyr::mutate(z_initial = dplyr::first(unit_depth)) %>%
+          dplyr::ungroup() %>%
+          dplyr::group_by(timestep) %>%
+          dplyr::mutate(campact_curve = (z - y)/(a - z_initial),
                  compact_thk = unit_depth - dplyr::lag(unit_depth),
-                 top_porosity = if_else(condition =  unit_depth > z_initial,
+                 top_porosity = dplyr::if_else(condition =  unit_depth > z_initial,
                                         true = y,
                                         false = (campact_curve * (z_initial - unit_depth)) + y),
-                 bottom_porosity = if_else(condition =  unit_depth > z_initial,
+                 bottom_porosity = dplyr::if_else(condition =  unit_depth > z_initial,
                                            true = y,
-                                           false = (campact_curve * (z_initial - lag(unit_depth))) + y),
+                                           false = (campact_curve * (z_initial - dplyr::lag(unit_depth))) + y),
                  avg_porosity = (top_porosity + bottom_porosity)/2,
                  decompact_thk = compact_thk + compact_thk * ((y/100)-(avg_porosity/100)),
                  sea_level = 0,
-                 water_depth =  if_else(condition = unit_depth > sea_level,
+                 water_depth =  dplyr::if_else(condition = unit_depth > sea_level,
                                         true = 0,
                                         false = sea_level - max(unit_depth))) %>%
-          ungroup()
+          dplyr::ungroup()
 
       } else {
         x[,-(2:3)] %>%
-          pivot_longer(cols = -timestep, names_to = "sediment", values_to = "unit_depth") %>%
-          ungroup() %>%
-          drop_na() %>%
-          group_by(sediment) %>%
-          mutate(z_initial = first(unit_depth)) %>%
-          ungroup() %>%
-          group_by(timestep) %>%
-          mutate(campact_curve = (z - y)/(a - z_initial),
+          tidyr::pivot_longer(cols = -timestep, names_to = "sediment", values_to = "unit_depth") %>%
+          dplyr::ungroup() %>%
+          tidyr::drop_na() %>%
+          dplyr::group_by(sediment) %>%
+          dplyr::mutate(z_initial = dplyr::first(unit_depth)) %>%
+          dplyr::ungroup() %>%
+          dplyr::group_by(timestep) %>%
+          dplyr::mutate(campact_curve = (z - y)/(a - z_initial),
                  compact_thk = unit_depth - dplyr::lag(unit_depth),
-                 top_porosity = if_else(condition =  unit_depth > z_initial,
+                 top_porosity = dplyr::if_else(condition =  unit_depth > z_initial,
                                         true = y,
                                         false = (campact_curve * (z_initial - unit_depth)) + y),
-                 bottom_porosity = if_else(condition =  unit_depth > z_initial,
+                 bottom_porosity = dplyr::if_else(condition =  unit_depth > z_initial,
                                            true = y,
-                                           false = (campact_curve * (z_initial - lag(unit_depth))) + y),
+                                           false = (campact_curve * (z_initial - dplyr::lag(unit_depth))) + y),
                  decompact_thk = compact_thk + compact_thk * ((y/100)-(avg_porosity/100))) %>%
-          left_join(y = b) %>%
-          mutate(sl1 = sea_level,
+          dplyr::left_join(y = b) %>%
+          dplyr::mutate(sl1 = sea_level,
                  sl2 = sea_level) %>%
           tidyr::fill(sl1, .direction = "down") %>%
           tidyr::fill(sl2, .direction = "up") %>%
-          mutate(
+          dplyr::mutate(
             sea_level = ifelse(is.na(sea_level),
                                (sl1+sl2)/2,
                                sea_level),
             # sea_level = stats::smooth.spline(x = sea_level, spar = 0.3)$y,    # smooth.spline doesn't seem to work with 0 values or negative
-            water_depth =  if_else(condition = unit_depth > sea_level,
+            water_depth =  dplyr::if_else(condition = unit_depth > sea_level,
                                    true = 0,
                                    false = sea_level - max(unit_depth))) %>%
-          ungroup() %>%
-          select(-c(sl1,sl2))
+          dplyr::ungroup() %>%
+          dplyr::select(-c(sl1,sl2))
       }
     }
   })
