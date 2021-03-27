@@ -1,7 +1,7 @@
 #' get_decompaction_data
 #'
 #' @param models_well_tops output from get_well_tops
-#' @param file_paths list of the paths to the files within the root directory
+#' @param model_paths list of the paths to the files within the root directory
 #'
 #' @importFrom dplyr %>%
 #'
@@ -10,7 +10,7 @@
 #'
 #' @examples
 
-get_decompaction_data <- function(models_well_tops, file_paths){
+get_decompaction_data <- function(models_well_tops, model_paths){
   # Equations ----
   #
   # campact_curve = (phi1 -phi2)/(compact_depth - z_initial)
@@ -21,7 +21,7 @@ get_decompaction_data <- function(models_well_tops, file_paths){
   #
   # gather TISC model inputs ----
 
-  prm_data <- purrr:map(file_paths$PRM, readr::read_lines)
+  prm_data <- purrr::map(model_paths$PRM, readr::read_lines)
   phi1 <- purrr::map_dbl(prm_data, function(x){                              # sed_porosity from .PRM expressed as a %
     stringr::str_subset(string = x, pattern = "^sed_porosity") %>%
       stringr::str_extract(pattern = "\\d+\\.*\\d*") %>%
@@ -44,7 +44,7 @@ get_decompaction_data <- function(models_well_tops, file_paths){
 
   # Rework this into creating the data.frame with 2 columns(timestep & depth)
 
-    slv_data <- purrr:map(file_paths$SLV, function(x){
+    slv_data <- purrr::map(model_paths$SLV, function(x){
 
     x %>%
       readr::read_lines(skip_empty_rows = T) %>%

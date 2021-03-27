@@ -3,6 +3,7 @@
 export(compute_basin_symmetry_data)
 export(compute_basin_volumes)
 export(find_basin_data)
+export(get_basin_geometry)
 export(get_decompaction_data)
 export(get_subsidence_data)
 export(get_well_tops)

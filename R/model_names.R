@@ -9,5 +9,5 @@
 #'
 #' @examples
 model_names <- function(file_paths){
-  unique(basename(dirname(file_paths)))
+  unique(basename(dirname(file_paths$pfl)))
 }

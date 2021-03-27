@@ -19,15 +19,15 @@ get_well_tops <- function(models_well_location, file_paths, model_names){
   # model_names
 
   pfl_text_data <- purrr::map(model_names, ~ stringr::str_subset(string = file_paths$pfl, pattern = .x)) %>%
-    purrr::map(~ purrr::map(.x, read_lines))
+    purrr::map(~ purrr::map(.x, readr::read_lines))
 
   pfl_data <- purrr::map(model_names, ~ stringr::str_subset(string = file_paths$pfl, pattern = .x)) %>%
-    purrr::map(~ map(.x, ~ tibble::as_tibble(utils::read.table(.x, header = FALSE, sep = "\t", stringsAsFactors = FALSE))))
+    purrr::map(~ purrr::map(.x, ~ tibble::as_tibble(utils::read.table(.x, header = FALSE, sep = "\t", stringsAsFactors = FALSE))))
 
-  prm_data <- purrr::map(file_paths$PRM, read_lines)
+  prm_data <- purrr::map(file_paths$PRM, readr::read_lines)
 
   unit_data <- purrr::map(model_names, ~ stringr::str_subset(string = file_paths$UNIT, pattern = .x)) %>%
-    purrr::map(~ purrr::map(.x, read_lines))
+    purrr::map(~ purrr::map(.x, readr::read_lines))
 
   bedrock_density <- purrr::map_dbl(prm_data, function(x){
     stringr::str_subset(string = x, pattern = "^denscrust") %>%
