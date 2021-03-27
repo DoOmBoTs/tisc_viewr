@@ -13,7 +13,7 @@ tops <- get_well_tops(models_well_location = location,
                       model_names = mn)
 
 # class definition in function says it is of a different length than the rest,
-# though it doesn't appear to be
+# though it doesn't appear to be. I commented out this section temporarily.
 basin_geometry <- get_basin_geometry(models_basin_data = basinData,
                                      model_paths = fp)
 
