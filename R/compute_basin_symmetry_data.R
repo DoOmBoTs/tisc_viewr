@@ -37,10 +37,10 @@ compute_basin_symmetry_data <- function(models_basin_data, file_paths){
         ratio = right / left,
         difference = right - left,
         model = y,
-        class =  dplyr::first(stringr::str_subset(string = file_paths$pfl, pattern = model)) %>%
-          dirname() %>%
-          dirname() %>%
-          basename()
+        # class =  dplyr::first(stringr::str_subset(string = file_paths$pfl, pattern = model)) %>%
+        #   dirname() %>%
+        #   dirname() %>%
+        #   basename()
       )
 
   })

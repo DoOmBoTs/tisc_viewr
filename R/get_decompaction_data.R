@@ -19,9 +19,9 @@ get_decompaction_data <- function(models_well_tops, model_paths){
   # decompact_thk = compact_thk + compact_thk * ((y/100)-(porosity/100))
   # water_depth = sea_level - max(unit_depth)
   #
-  # gather TISC model inputs ----
 
   prm_data <- purrr::map(model_paths$PRM, readr::read_lines)
+
   phi1 <- purrr::map_dbl(prm_data, function(x){                              # sed_porosity from .PRM expressed as a %
     stringr::str_subset(string = x, pattern = "^sed_porosity") %>%
       stringr::str_extract(pattern = "\\d+\\.*\\d*") %>%
@@ -61,8 +61,6 @@ get_decompaction_data <- function(models_well_tops, model_paths){
 
   })
 
-
-  # Build decompaction data.frame conditional case----
 
   purrr::pmap(list(models_well_tops, phi1, phi2, compact_depth, slv_data, switch_sea), function(x, y, z, a, b, c){
 

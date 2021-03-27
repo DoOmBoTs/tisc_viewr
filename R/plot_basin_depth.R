@@ -17,10 +17,10 @@ plot_basin_depth <- function(models_basin_geometry, vis_dir){
     dplyr::group_by(model_name) %>%
     dplyr::mutate(period = dplyr::row_number())
 
-  p <- ggplot2::ggplot(data = d, aes(x = period, y = basin_depth, color = model_name)) +
+  p <- ggplot2::ggplot(data = d, ggplot2::aes(x = period, y = basin_depth, color = model_name)) +
     ggplot2::geom_line(size = .5) +
     # scale_x_continuous(breaks = d$period, labels = d$timestep) +
-    ggplot2::geom_hline(yintercept = -1000, linetype = "dashed", color = "red") +
+    # ggplot2::geom_hline(yintercept = -1000, linetype = "dashed", color = "red") +
     ggplot2::labs(x = "Timestep (My)", y = "Depth (m)", title = "Basin depth over time") +
     ggplot2::facet_wrap(~ class) + # changed model_name to class , testing now
     ggplot2::theme_bw()

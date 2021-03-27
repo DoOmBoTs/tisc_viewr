@@ -4,10 +4,12 @@
 \alias{get_basin_geometry}
 \title{get_basin_geometry}
 \usage{
-get_basin_geometry(models_basin_data)
+get_basin_geometry(models_basin_data, model_paths)
 }
 \arguments{
 \item{models_basin_data}{output from wrangle_pfl}
+
+\item{model_paths}{list of paths to the pfl files in the root directory}
 }
 \value{
 

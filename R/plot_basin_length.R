@@ -17,7 +17,7 @@ plot_basin_length <- function(models_basin_geometry, vis_dir){
     dplyr::group_by(model_name) %>%
     dplyr::mutate(period = dplyr::row_number())
 
-  p <- ggplot2::ggplot(data = d, aes(x = period, y = basin_length, color = model_name)) +
+  p <- ggplot2::ggplot(data = d, ggplot2::aes(x = period, y = basin_length, color = model_name)) +
     ggplot2::geom_line(size = .5) +
     ggplot2::labs(x = "Timestep (My)", y = "Width (km)", title = "Basin length over time") +
     ggplot2::facet_wrap(~ class) +

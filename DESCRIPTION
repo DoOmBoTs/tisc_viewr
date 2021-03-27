@@ -26,7 +26,8 @@ Imports:
     readr,
     stringr,
     here,
-    forcats
+    forcats,
+    cli
 Suggests: 
     rmarkdown,
     knitr

@@ -38,12 +38,12 @@ make_basin_plots_individual <- function(models_basin_data, vis_dir){
 
       ggplot2::ggsave(
         filename = glue::glue("{timestep}.png"),
-        path = here::here(glue::glue("visualizations/basin_plots/individual/{model_name}")),
+        path = vis_dir,
         plot = basin_plot, device = "png",
         width = 25, height = 20, units = "cm"
       )
 
-      cli_alert_success(glue::glue("Model: {model_name}\tTimestep: {timestep}"))
+      cli::cli_alert_success(glue::glue("Model: {model_name}\tTimestep: {timestep}"))
 
     })
 
