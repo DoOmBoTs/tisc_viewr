@@ -13,7 +13,7 @@
 #' @examples
 model_paths <- function(wanted_files, root_path){
 
-  paths <- purrr::map(wanted_files, function(x){
+  paths <- furrr::future_map(wanted_files, function(x){
 
     if (x == "pfl") {
       fs::dir_ls(

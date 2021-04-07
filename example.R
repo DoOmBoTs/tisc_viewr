@@ -1,5 +1,5 @@
 fp <- model_paths(wanted_files = c("pfl", "PRM", "UNIT", "SLV"),
-            root_path = here("sample_data/foreland_basin"))
+            root_path = "~/Bryan/Tisc_Models")
 
 mn <- model_names(file_paths = fp)
 

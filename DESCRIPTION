@@ -27,7 +27,9 @@ Imports:
     stringr,
     here,
     forcats,
-    cli
+    cli,
+    future,
+    furrr
 Suggests: 
     rmarkdown,
     knitr
