@@ -3,6 +3,8 @@
 #' @param models_basin_data output from wrangle_pfl
 #' @param model_paths list of paths to the pfl files in the root directory
 #'
+#' @importFrom dplyr %>%
+#'
 #' @return
 #' @export
 #'
@@ -17,14 +19,13 @@ get_basin_geometry <- function(models_basin_data, model_paths){
       ) %>%
       dplyr::mutate(
         model = y,
-        # class =  dplyr::first(stringr::str_subset(
-        #   string = model_paths$pfl,
-        #   pattern = model
-        # )) %>%
-        #   dirname() %>%
-        #   dirname() %>%
-        #   basename()
+        class =  stringr::str_subset(
+          string = model_paths$pfl,
+          pattern = model
+        ) %>% dplyr::first() %>%
+          dirname() %>%
+          dirname() %>%
+          basename()
       )
   })
 }
-

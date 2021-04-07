@@ -6,6 +6,7 @@ mn <- model_names(file_paths = fp)
 basinData <- wrangle_pfl(file_paths = fp,
                          model_names = mn)
 
+# spelling error with location, change in function as well
 location <- models_well_locaton(models_basin_data = basinData)
 
 tops <- get_well_tops(models_well_location = location,

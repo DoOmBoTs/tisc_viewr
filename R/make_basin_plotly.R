@@ -9,13 +9,13 @@
 #' @export
 #'
 #' @examples
-make_basin_plotly <- function(models_basin_data, vis_dir){
+make_basin_plotly <- function(models_basin_data, vis_dir = NULL){
 
-  models_basin_data %>%
+  Ps <- models_basin_data %>%
 
-    purrr::iwalk(function(tidy_pfl, model_name){
+     purrr::imap(function(tidy_pfl, model_name){
 
-      if (nrow(tidy_pfl) < 0) {
+      if (nrow(tidy_pfl) > 0) {
 
         basin <- tidyr::pivot_wider(tidy_pfl, names_from = "timestep", values_from = "elevation") %>%
           dplyr::select(-(Y)) %>%
@@ -43,8 +43,21 @@ make_basin_plotly <- function(models_basin_data, vis_dir){
             )
           )
 
-        htmlwidgets::saveWidget(p, vis_dir, model_name)
       }
+
+       # browser()
+       file_name <- paste0(vis_dir, "/", model_name, ".html")
+
+       if(!is.null(vis_dir)){
+         htmlwidgets::saveWidget(p, file_name)
+       }
+
+      p
+
     })
+
+    Ps
+
+
 
 }
