@@ -4,12 +4,12 @@
 \alias{get_decompaction_data}
 \title{get_decompaction_data}
 \usage{
-get_decompaction_data(models_well_tops, file_paths)
+get_decompaction_data(models_well_tops, model_paths)
 }
 \arguments{
 \item{models_well_tops}{output from get_well_tops}
 
-\item{file_paths}{list of the paths to the files within the root directory}
+\item{model_paths}{list of the paths to the files within the root directory}
 }
 \value{
 

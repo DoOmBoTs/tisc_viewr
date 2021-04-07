@@ -12,11 +12,11 @@
 plot_basin_symmetry_data <- function(models_basin_symmetry_data, vis_dir){
 
   d <- models_basin_symmetry_data %>%
-    purrr::imap(~ .x %>% dplyr::mutate(model = .y, t = row_number())) %>%
+    purrr::imap(~ .x %>% dplyr::mutate(model = .y, t = dplyr::row_number())) %>%
     dplyr::bind_rows()
 
 
-  p <- ggplot2::ggplot(data = d, aes(x = t, y = ratio, color = model)) +
+  p <- ggplot2::ggplot(data = d, ggplot2::aes(x = t, y = ratio, color = model)) +
     ggplot2::geom_line(size = .5) +
     ggplot2::geom_hline(yintercept = 1, linetype = 2, color = "red") +
     ggplot2::labs(x = "Timestep (My)", y = "Thrustward Volume:Hinterlandward Volume", title = "Basin Symmetry") +
@@ -24,7 +24,7 @@ plot_basin_symmetry_data <- function(models_basin_symmetry_data, vis_dir){
     ggplot2::theme_bw()
 
   ggplot2::ggsave(
-    filename = glue("basin_symmetry.png"),
+    filename = glue::glue("basin_symmetry.png"),
     path = vis_dir,
     plot = p, device = "png",
     width = 25, height = 20, units = "cm"

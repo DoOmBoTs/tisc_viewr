@@ -19,10 +19,10 @@ plot_geohistory_curves <- function(subsidence_data, vis_dir){
     dplyr::group_by(model_name)
 
 
-  p <- ggplot2::ggplot(data = d, aes(x = timestep)) +
-    ggplot2::geom_line(aes(y = -sub_total, color = "Total subsidence")) +
-    ggplot2::geom_line(aes(y = -spline_sub_tec, color = "Spline tectonic subsidence")) +
-    ggplot2::geom_area(aes(y = -spline_water_depth, fill = "Water depth"), size = 0.2, alpha = 0.5, color = "darkblue") +
+  p <- ggplot2::ggplot(data = d, ggplot2::aes(x = timestep)) +
+    ggplot2::geom_line(ggplot2::aes(y = -sub_total, color = "Total subsidence")) +
+    ggplot2::geom_line(ggplot2::aes(y = -spline_sub_tec, color = "Spline tectonic subsidence")) +
+    ggplot2::geom_area(ggplot2::aes(y = -spline_water_depth, fill = "Water depth"), size = 0.2, alpha = 0.5, color = "darkblue") +
     ggplot2::scale_color_manual(
       values = c("Total subsidence" = "black",
                  "Spline tectonic subsidence" = "red")
@@ -34,7 +34,7 @@ plot_geohistory_curves <- function(subsidence_data, vis_dir){
 
 
   ggplot2::ggsave(
-    filename = glue("geohistory_curves.png"),
+    filename = glue::glue("geohistory_curves.png"),
     path = vis_dir,
     plot = p, device = "png",
     width = 25, height = 20, units = "cm"

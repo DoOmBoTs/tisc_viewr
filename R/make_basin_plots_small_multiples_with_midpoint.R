@@ -13,15 +13,15 @@ make_basin_plots_small_multiples_with_midpoint <- function(models_basin_data, vi
 
   models_basin_data %>%
 
-    iwalk(function(tidy_pfl, model_name){
+    purrr::iwalk(function(tidy_pfl, model_name){
       if (nrow(tidy_pfl) < 0) {
         midpoint_data <- tidy_pfl %>%
           dplyr::group_by(timestep) %>%
           dplyr::summarize(midpoint = ceiling(stats::median(Y, na.rm = TRUE)))
 
-        p <- ggplot2::ggplot(data = tidy_pfl, mapping = aes(x = Y, y = elevation)) +
+        p <- ggplot2::ggplot(data = tidy_pfl, mapping = ggplot2::aes(x = Y, y = elevation)) +
           ggplot2::geom_line() +
-          ggplot2::geom_vline(data = midpoint_data, mapping = aes(xintercept = midpoint), linetype = 2, color = "red") +
+          ggplot2::geom_vline(data = midpoint_data, mapping = ggplot2::aes(xintercept = midpoint), linetype = 2, color = "red") +
           ggplot2::labs(x = "", y = "", title = paste0("Model: ", model_name)) +
           ggplot2::facet_wrap(~ timestep, scales = "free") +
           ggplot2::theme_bw()
