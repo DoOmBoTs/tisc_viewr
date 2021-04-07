@@ -25,7 +25,8 @@ Imports:
     htmlwidgets,
     readr,
     stringr,
-    here
+    here,
+    forcats
 Suggests: 
     rmarkdown,
     knitr

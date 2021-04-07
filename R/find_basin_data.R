@@ -25,7 +25,7 @@ find_basin_data <- function(Y, elevation_vector, n){
 
   tbl <- tibble::tibble(values = negative_runs$values, lengths = negative_runs$lengths) %>%
     dplyr::filter(values, lengths >= n) %>%
-    dplyr::slice(n())   # keep last if vel_x/vel_y vaule is - or keep first if +
+    dplyr::slice(dplyr::n())   # keep last if vel_x/vel_y vaule is - or keep first if +
 
   if(nrow(tbl) == 0) return(tibble::tibble(Y = NA_real_, elevation = NA_real_))
 

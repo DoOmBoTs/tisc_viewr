@@ -83,9 +83,9 @@ wrangle_pfl <- function(file_paths, model_names){
                    names_to = "timestep",
                    names_prefix="Z_",
                    values_to = "elevation") %>%
-      dplyr::mutate(timestep = fct_inorder(timestep)) %>%
+      dplyr::mutate(timestep = forcats::fct_inorder(timestep)) %>%
       dplyr::group_by(timestep) %>%
-      dplyr::summarize(find_basin_data(Y = Y, elevation_vector = elevation, n = 100)) %>%
+      dplyr::summarise(find_basin_data(Y = Y, elevation_vector = elevation, n = 100)) %>%
       tidyr::drop_na() %>%
       dplyr::ungroup()
   })
