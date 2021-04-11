@@ -2,6 +2,7 @@
 #'
 #' @param models_well_tops output from get_well_tops
 #' @param model_paths list of the paths to the files within the root directory
+#'  @param model_names name of the models used
 #'
 #' @importFrom dplyr %>%
 #'
@@ -10,7 +11,7 @@
 #'
 #' @examples
 
-get_decompaction_data <- function(models_well_tops, model_paths){
+get_decompaction_data <- function(models_well_tops, model_paths, model_names){
   # Equations ----
   #
   # campact_curve = (phi1 -phi2)/(compact_depth - z_initial)
@@ -20,7 +21,9 @@ get_decompaction_data <- function(models_well_tops, model_paths){
   # water_depth = sea_level - max(unit_depth)
   #
 
-  prm_data <- purrr::map(model_paths$PRM, readr::read_lines)
+  # prm_data <- purrr::map(model_paths$PRM, readr::read_lines)
+  prm_data <- furrr::future_map(model_names, ~ stringr::str_subset(string = model_paths$PRM, pattern = .x)) %>%
+    purrr::map(function(x){ dplyr::first(x) %>% readr::read_lines() })
 
   phi1 <- purrr::map_dbl(prm_data, function(x){                              # sed_porosity from .PRM expressed as a %
     stringr::str_subset(string = x, pattern = "^sed_porosity") %>%
@@ -43,24 +46,18 @@ get_decompaction_data <- function(models_well_tops, model_paths){
   })
 
   # Rework this into creating the data.frame with 2 columns(timestep & depth)
-
-    slv_data <- purrr::map(model_paths$SLV, function(x){
-
-    x %>%
-      readr::read_lines(skip_empty_rows = T) %>%
-      tibble::as_tibble() %>%
-      tidyr::separate(col = value,
-               into = c("timestep", "sea_level"),
-               sep = "\t",
-               fill = "right"
-      ) %>%
-      ## remove redundant lines
-      tidyr::drop_na() %>%
-      ## change type for all columns to `double`
-      purrr::map_df(as.numeric)
-
-  })
-
+  slv_data <- furrr::future_map(model_names, ~ stringr::str_subset(string = model_paths$SLV, pattern = .x)) %>%
+    purrr::map(function(x){ dplyr::first(x) %>% readr::read_lines(skip_empty_rows = T) %>%
+        tibble::as_tibble() %>%
+        tidyr::separate(col = value,
+                        into = c("timestep", "sea_level"),
+                        sep = "\t",
+                        fill = "right"
+        ) %>%
+        ## remove redundant lines
+        tidyr::drop_na() %>%
+        ## change type for all columns to `double`
+        purrr::map_df(as.numeric)})
 
   purrr::pmap(list(models_well_tops, phi1, phi2, compact_depth, slv_data, switch_sea), function(x, y, z, a, b, c){
 

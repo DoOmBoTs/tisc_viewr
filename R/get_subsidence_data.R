@@ -2,6 +2,7 @@
 #'
 #' @param decompaction_data output from get_decompaction_data
 #' @param file_paths list of the paths to the files within the root directory
+#'  @param model_names names of the models being used
 #'
 #' @importFrom dplyr %>%
 #'
@@ -9,7 +10,7 @@
 #' @export
 #'
 #' @examples
-get_subsidence_data <- function(decompaction_data, file_paths){
+get_subsidence_data <- function(decompaction_data, file_paths, model_names){
   # Equations ----
   #
   # z_tec Equation pulled from:
@@ -29,7 +30,8 @@ get_subsidence_data <- function(decompaction_data, file_paths){
   #
   # gather TISC model inputs ----
 
-  prm_data <- purrr::map(file_paths$PRM, readr::read_lines)
+  prm_data <- furrr::future_map(model_names, ~ stringr::str_subset(string = file_paths$PRM, pattern = .x)) %>%
+    purrr::map(function(x){ dplyr::first(x) %>% readr::read_lines() })
 
   rho_s <- purrr::map_dbl(prm_data, function(x){
     stringr::str_subset(string = x, pattern = "^denssedim") %>%
