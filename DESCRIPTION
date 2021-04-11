@@ -29,7 +29,8 @@ Imports:
     forcats,
     cli,
     future,
-    furrr
+    furrr,
+    progressr
 Suggests: 
     rmarkdown,
     knitr
