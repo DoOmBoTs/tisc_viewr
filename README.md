@@ -7,6 +7,7 @@ This research was supported by the National Science Foundation (EAR‐1824557).
 
 ## Instalation
 
+This package can currently be pulled directly from GitLab or installed to your R environment using the devtools package, as shown below.
 ```
 devtools::install_gitlab(repo = "https://gitlab.com/Bryanrt-geophys/tisc_viewr")
 ```
