@@ -1,0 +1,195 @@
+---
+title: "Thesis Wiki"
+author: "Bryan Thomas"
+date: "2023-06-17"
+output: github_document
+---
+
+
+```{r, results = 'asis', echo=FALSE}
+library(targets)
+
+source("/Users/cami/Desktop/Bryan/tisc_viewr/R/utility_functions.R")
+source("/Users/cami/Desktop/Bryan/tisc_viewr/R/find_basin_data.R")
+source("/Users/cami/Desktop/Bryan/tisc_viewr/R/wrangle_pfl.R")
+source("/Users/cami/Desktop/Bryan/tisc_viewr/R/plot_functions.R")
+source("/Users/cami/Desktop/Bryan/tisc_viewr/R/get_well_tops.R")
+source("/Users/cami/Desktop/Bryan/tisc_viewr/R/get_decompaction_data.R")
+source("/Users/cami/Desktop/Bryan/tisc_viewr/R/get_subsidence_data.R")
+
+tar_option_set(
+  packages = c(
+    "here",
+    "readr",
+    "fs",
+    "stringr",
+    "dplyr",
+    "purrr",
+    "tidyr",
+    "forcats",
+    "ggplot2",
+    "glue",
+    "cli",
+    "moments",
+    "plotly"
+  )
+)
+
+tar_script({
+  list(
+
+  tar_target(
+    raw_data_path,
+    here::here("data/raw")
+  ),
+
+  tar_target(
+    pfl_files,
+    fs::dir_ls(path = raw_data_path, all = TRUE, recurse = TRUE, regexp = "\\.pfl$")
+  ),
+
+  tar_target(
+    model_names,
+    unique(basename(dirname(pfl_files)))
+  ),
+
+  tar_target(
+    prm_files,
+    fs::dir_ls(path = raw_data_path, all = TRUE, recurse = TRUE, regexp = "\\.PRM$") %>%
+      stringr::str_subset(pattern = paste(model_names, collapse = "|"))
+  ),
+
+  tar_target(
+    unit_files,
+    fs::dir_ls(path = raw_data_path, all = TRUE, recurse = TRUE, regexp = "\\.UNIT$") %>%
+      stringr::str_subset(pattern = paste(model_names, collapse = "|"))
+  ),
+
+  tar_target(
+    slv_files,
+    fs::dir_ls(path = raw_data_path, all = TRUE, recurse = TRUE, regexp = "\\.SLV") %>%
+      stringr::str_subset(pattern = paste(model_names, collapse = "|"))
+  ),
+
+  tar_target(
+    class_paths,
+      dir_ls(
+        path = here("../../../Tisc_Models"),
+        recurse = TRUE,
+        all = TRUE,
+        regexp = sprintf("UNIT")
+      )
+  ),
+
+  tar_target(
+    models_basin_data,
+    wrangle_pfl(pfl_files, prm_files, unit_files, model_names)
+  ),
+
+  tar_target(
+    models_well_location,
+    models_basin_data %>%
+      map(~ filter(.x, as.numeric(timestep) == max(as.numeric(timestep)))) %>%
+      map(~ .x$Y[.x$elevation == min(.x$elevation)])
+  ),
+
+  tar_target(
+    models_basin_geometry,
+    imap(models_basin_data, function(tidy_pfl, y){
+      tidy_pfl %>%
+        group_by(timestep) %>%
+        dplyr::summarize(
+          basin_length = n(),
+          basin_depth = min(elevation)
+        ) %>%
+        dplyr::mutate(
+          model = y,
+          class =  first(str_subset(
+            string = class_paths,
+            pattern = model
+          )) %>%
+            dirname() %>%
+            dirname() %>%
+            basename()
+        )
+    })
+  ),
+
+  # tar_target(
+  #   models_basin_geometry,
+  #   map(models_basin_data, function(tidy_pfl){
+  #     tidy_pfl %>%
+  #       group_by(timestep) %>%
+  #       summarize(
+  #         basin_length = n(),
+  #         basin_depth = min(elevation)
+  #       )
+  #   })
+  # ),
+
+  tar_target(
+    models_basin_symmetry_data,
+    compute_basin_symmetry_data(models_basin_data, class_paths)
+  ),
+
+  tar_target(
+    models_well_tops,
+    get_well_tops(models_well_location, pfl_files, prm_files, unit_files, model_names)
+  ),
+
+  tar_target(
+    decompaction_data,
+    get_decompaction_data(models_well_tops, prm_files, slv_files)
+  ),
+
+  tar_target(
+    subsidence_data,
+    get_subsidence_data(decompaction_data, prm_files)
+  ),
+
+  tar_target(
+    basin_plots_facets,
+    make_basin_plots_small_multiples(models_basin_data)
+  ),
+
+  # tar_target(
+  #   basin_plots_individual,
+  #   make_basin_plots_individual(models_basin_data)
+  # ),
+
+  tar_target(
+    basin_plots_facets_with_midpoint,
+    make_basin_plots_small_multiples_with_midpoint(models_basin_data)
+  ),
+
+  tar_target(
+    basin_length_plots_facets,
+    plot_basin_length(models_basin_geometry)
+  ),
+
+  tar_target(
+    basin_depth_plots_facets,
+    plot_basin_depth(models_basin_geometry)
+  ),
+
+  tar_target(
+    basin_symmetry_plots,
+    plot_basin_symmetry_data(models_basin_symmetry_data)
+  ),
+
+  tar_target(
+    geohistory_curves,
+    plot_geohistory_curves(subsidence_data)
+  ),
+
+  tar_target(
+    basin_plotly,
+    make_basin_plotly(models_basin_data)
+  )
+
+)
+})
+
+cat(c("```mermaid",tar_mermaid(),"```"), sep = "\n")
+```
+

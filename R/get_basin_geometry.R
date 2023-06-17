@@ -19,12 +19,11 @@ get_basin_geometry <- function(models_basin_data, model_paths){
       ) %>%
       dplyr::mutate(
         model = y,
-        class = stringr::str_subset(
-          string = model_paths$pfl,
-          pattern = model
+        class = dplyr::first(stringr::str_subset(
+          string = fp$UNIT,
+          pattern = y)
         ) %>%
-          dplyr::first() %>%
-          dirname() %>%
+          dirname() %>% 
           dirname() %>%
           basename()
       )
