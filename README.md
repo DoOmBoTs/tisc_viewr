@@ -10,7 +10,7 @@ This research was supported by the National Science Foundation (EAR‐1824557).
 
 This package can currently be pulled directly from GitLab or installed to your R environment using the devtools package, as shown below.
 ```
-devtools::install_github(repo = "https://gitlab.com/Bryanrt-geophys/tisc_viewr")
+devtools::install_github(repo = "https://github.com/DoOmBoTs/tisc_viewr.git")
 ```
 ### Necessary TISC Edits
 To use TISCViewR, a minor edit must be made to how TISC overwrites some of its output files at each timestep. After downloading TISC, navigate to the downloaded directory, open the src directory, and open the tiscio.c file. Find the `int write_file_cross_section()` function in the file (cmd+f/cntrl+f) and insert the following lines at the end of the function just above `return 1;`:
