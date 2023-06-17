@@ -5,8 +5,6 @@ TISCViewR is an R package built to work cooperatively with [TISC](https://github
 ## Acknowledgements
 This research was supported by the National Science Foundation (EAR‐1824557).
 
-To get a glimpse of the visualizations output by TISCViewR see the [visualizations directory](visualizations).
-
 ## Getting Started
 ### Instalation
 
