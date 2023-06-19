@@ -25,6 +25,7 @@ graph LR
     x13e66677aef3dcf3(["prm_files"]):::outdated --> x8dc0e7b1a3e303ee(["subsidence_data"]):::outdated
     xc88a1f3bc464123d(["model_names"]):::outdated --> x13e66677aef3dcf3(["prm_files"]):::outdated
     xd98f7991f989723a(["raw_data_path"]):::outdated --> x13e66677aef3dcf3(["prm_files"]):::outdated
+    xd98f7991f989723a(["raw_data_path"]):::outdated --> xed16daba7deacec5(["class_paths"]):::outdated
     x5bae5b970a2cd98d(["models_basin_data"]):::outdated --> x74f26b2a8873f02d(["basin_plots_facets"]):::outdated
     x5bae5b970a2cd98d(["models_basin_data"]):::outdated --> x78351d43e30ebfb1(["models_well_location"]):::outdated
     x5bae5b970a2cd98d(["models_basin_data"]):::outdated --> x394a1af4289d6ff3(["basin_plots_facets_with_midpoint"]):::outdated
