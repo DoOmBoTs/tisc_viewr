@@ -13,9 +13,6 @@ compute_basin_volumes(Y, elevation, middle)
 
 \item{middle}{median of length of basin}
 }
-\value{
-
-}
 \description{
 compute_basin_volumes
 }

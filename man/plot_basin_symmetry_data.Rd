@@ -11,9 +11,6 @@ plot_basin_symmetry_data(models_basin_symmetry_data, vis_dir)
 
 \item{vis_dir}{directory where you would like to place your plots}
 }
-\value{
-
-}
 \description{
 plot_basin_symmetry_data
 }

@@ -11,9 +11,6 @@ models_basin_geometry(models_basin_data, model_paths)
 
 \item{model_paths}{paths to the model files}
 }
-\value{
-
-}
 \description{
 models_basin_geometry
 }

@@ -4,15 +4,13 @@
 \alias{get_subsidence_data}
 \title{get_subsidence_data}
 \usage{
-get_subsidence_data(decompaction_data, file_paths)
+get_subsidence_data(decompaction_data, file_paths, model_names)
 }
 \arguments{
 \item{decompaction_data}{output from get_decompaction_data}
 
-\item{file_paths}{list of the paths to the files within the root directory}
-}
-\value{
-
+\item{file_paths}{list of the paths to the files within the root directory
+@param model_names names of the models being used}
 }
 \description{
 get_subsidence_data

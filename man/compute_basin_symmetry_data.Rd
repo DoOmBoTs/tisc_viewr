@@ -11,9 +11,6 @@ compute_basin_symmetry_data(models_basin_data, file_paths)
 
 \item{file_paths}{path to the root directory with all models}
 }
-\value{
-
-}
 \description{
 compute_basin_symmetry_data
 }

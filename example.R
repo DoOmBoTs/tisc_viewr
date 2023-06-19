@@ -1,3 +1,5 @@
+devtools::install_github(repo = "https://github.com/DoOmBoTs/tisc_viewr.git")
+
 fp <- TISCViewR::model_paths(wanted_files = c("pfl", "PRM", "UNIT", "SLV"),
             root_path = here::here("sample_data/"))
 
@@ -13,8 +15,7 @@ tops <- TISCViewR::get_well_tops(models_well_location = location,
                       file_paths = fp,
                       model_names = mn)
 
-basinGeometry <- 
-  TISCViewR::get_basin_geometry(models_basin_data = basinData,
+basinGeometry <- TISCViewR::get_basin_geometry(models_basin_data = basinData,
                                      model_paths = fp)
 
 # if SLV is a passed file type, an empty list is returned

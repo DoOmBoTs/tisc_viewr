@@ -11,9 +11,6 @@ plot_geohistory_curves(subsidence_data, vis_dir)
 
 \item{vis_dir}{directory where you would like to place your plots}
 }
-\value{
-
-}
 \description{
 plot_geohistory_curves
 }

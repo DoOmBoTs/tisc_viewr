@@ -11,9 +11,6 @@ model_paths(wanted_files, root_path)
 
 \item{root_path}{The path to the directory where all the models are stored}
 }
-\value{
-
-}
 \description{
 Creates a named list of paths for each file type the user wants to use from TISC
 }

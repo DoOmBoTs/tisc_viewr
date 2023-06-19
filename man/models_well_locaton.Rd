@@ -9,9 +9,6 @@ models_well_locaton(models_basin_data)
 \arguments{
 \item{models_basin_data}{output from wrangle_pfl}
 }
-\value{
-
-}
 \description{
-models_well_locaton
+Location along the transect proscribed in the .PRFL file from tisc.
 }

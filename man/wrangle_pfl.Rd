@@ -11,12 +11,6 @@ wrangle_pfl(file_paths, model_names)
 
 \item{model_names}{description...}
 }
-\value{
-
-}
 \description{
 Description here...
-}
-\examples{
-
 }

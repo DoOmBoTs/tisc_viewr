@@ -13,12 +13,6 @@ find_basin_data(Y, elevation_vector, n)
 
 \item{n}{description...}
 }
-\value{
-
-}
 \description{
 Write description here...
-}
-\examples{
-
 }

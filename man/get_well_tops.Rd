@@ -13,9 +13,6 @@ get_well_tops(models_well_location, file_paths, model_names)
 
 \item{model_names}{names of the models being analyzed}
 }
-\value{
-
-}
 \description{
 get_well_tops
 }

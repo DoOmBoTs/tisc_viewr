@@ -11,9 +11,6 @@ get_basin_geometry(models_basin_data, model_paths)
 
 \item{model_paths}{list of paths to the pfl files in the root directory}
 }
-\value{
-
-}
 \description{
 get_basin_geometry
 }

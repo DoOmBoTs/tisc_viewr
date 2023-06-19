@@ -11,9 +11,6 @@ make_basin_plots_individual(models_basin_data, vis_dir)
 
 \item{vis_dir}{the directory path to where you would like to save your plots, end the path with an /}
 }
-\value{
-
-}
 \description{
 make_basin_plots_individual
 }

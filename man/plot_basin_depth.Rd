@@ -11,9 +11,6 @@ plot_basin_depth(models_basin_geometry, vis_dir)
 
 \item{vis_dir}{directory where you want to place your figures}
 }
-\value{
-
-}
 \description{
 plot_basin_depth
 }

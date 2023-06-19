@@ -9,9 +9,6 @@ model_names(file_paths)
 \arguments{
 \item{file_paths}{List of paths to the pfl files that contain the models being analyzed.}
 }
-\value{
-
-}
 \description{
 model_names
 }

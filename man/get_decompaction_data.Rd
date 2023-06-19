@@ -4,15 +4,13 @@
 \alias{get_decompaction_data}
 \title{get_decompaction_data}
 \usage{
-get_decompaction_data(models_well_tops, model_paths)
+get_decompaction_data(models_well_tops, model_paths, model_names)
 }
 \arguments{
 \item{models_well_tops}{output from get_well_tops}
 
-\item{model_paths}{list of the paths to the files within the root directory}
-}
-\value{
-
+\item{model_paths}{list of the paths to the files within the root directory
+@param model_names name of the models used}
 }
 \description{
 get_decompaction_data
